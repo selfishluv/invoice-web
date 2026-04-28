@@ -1,6 +1,8 @@
 # 🤖 Claude Code 개발 지침
 
-**claude-nextjs-starters**는 Next.js 15.5.3 + React 19 기반 모던 웹 애플리케이션 스타터 템플릿입니다.
+**아이타임 (AiTime)**은 Notion DB를 CMS로 활용하여 아이의 성장 기록을 타임라인 형태로 볼 수 있는 웹 서비스입니다.
+
+📋 상세 프로젝트 요구사항은 @/docs/PRD.md 참조
 
 ## 🛠️ 핵심 기술 스택
 

@@ -39,3 +39,7 @@ Thumbs.db
 
 # Generated files
 next-env.d.ts
+
+# Tool/agent data directories
+.claude/
+shrimp_data/
