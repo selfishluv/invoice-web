@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model GrowthRecord {
+  id        String   @id @default(cuid())
+  title     String
+  date      DateTime
+  memo      String   @default("")
+  photoUrl  String?
+  tags      String[]
+  ageMonths Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  timelineSummaries TimelineSummary[]
+}
+
+model TimelineSummary {
+  id             String        @id @default(cuid())
+  firstEventDate DateTime?
+  totalCount     Int           @default(0)
+  growthRecord   GrowthRecord? @relation(fields: [growthRecordId], references: [id])
+  growthRecordId String?
+}
