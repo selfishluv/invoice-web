@@ -1,19 +1,25 @@
-import { Footer } from '@/components/layout/footer'
-import { Header } from '@/components/layout/header'
-import { CTASection } from '@/components/sections/cta'
-import { FeaturesSection } from '@/components/sections/features'
-import { HeroSection } from '@/components/sections/hero'
+import { Container } from '@/components/layout/container'
+import { StatsCard } from '@/components/timeline/stats-card'
+import { TimelineView } from '@/components/timeline/timeline-view'
+import { fetchGrowthRecords, fetchTimelineSummary } from '@/lib/db/queries'
+import { TAG_COLORS } from '@/lib/types/tag'
 
-export default function Home() {
+export const revalidate = 3600
+
+export default async function TimelinePage() {
+  const records = await fetchGrowthRecords()
+  const summary = await fetchTimelineSummary(records)
+
+  const allTags = Object.keys(TAG_COLORS).filter(tag =>
+    records.some(r => r.tags.includes(tag))
+  )
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
-        <HeroSection />
-        <FeaturesSection />
-        <CTASection />
-      </main>
-      <Footer />
+    <div className="min-h-[calc(100vh-3.5rem)]">
+      <Container size="sm" className="py-8">
+        <StatsCard summary={summary} />
+        <TimelineView records={records} allTags={allTags} />
+      </Container>
     </div>
   )
 }
