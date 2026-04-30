@@ -6,13 +6,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { TAG_COLORS, DEFAULT_TAG_COLOR } from '@/lib/types/tag'
+import { DEFAULT_TAG_COLOR } from '@/lib/types/tag'
 import type { GrowthRecord } from '@/lib/types/growth-record'
 
 interface PhotoDetailModalProps {
   record: GrowthRecord | null
   open: boolean
   onClose: () => void
+  colorMap?: Record<string, string>
 }
 
 function formatDate(dateStr: string): string {
@@ -24,6 +25,7 @@ export function PhotoDetailModal({
   record,
   open,
   onClose,
+  colorMap,
 }: PhotoDetailModalProps) {
   return (
     <Dialog open={open} onOpenChange={open => !open && onClose()}>
@@ -68,7 +70,7 @@ export function PhotoDetailModal({
                   key={tag}
                   className={cn(
                     'rounded-full px-2 py-0.5 text-xs',
-                    TAG_COLORS[tag] ?? DEFAULT_TAG_COLOR
+                    colorMap?.[tag] ?? DEFAULT_TAG_COLOR
                   )}
                 >
                   {tag}

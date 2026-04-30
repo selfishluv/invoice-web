@@ -2,8 +2,8 @@
 
 PostgreSQL DB를 데이터 저장소로 활용하여 아이의 성장 기록을 아름다운 웹 타임라인으로 보여주는 정적 공개 사이트
 
-**📅 최종 업데이트**: 2026-04-27
-**📊 진행 상황**: Phase 3 진행 중 (10/13 Tasks 완료)
+**📅 최종 업데이트**: 2026-04-30
+**📊 진행 상황**: Phase 4 완료 (13/13 Tasks 완료) — Phase 5 예정
 
 ## 개요
 
@@ -166,31 +166,125 @@ PostgreSQL DB를 데이터 저장소로 활용하여 아이의 성장 기록을 
   - ✅ memo가 비어있는 경우 빈 상태 문구 표시
   - ✅ 외부 이미지 URL 도메인 next.config.ts `remotePatterns` 설정
 
-- **Task 011: 핵심 기능 통합 테스트** - 진행 예정
-  - **테스트 체크리스트 (Playwright MCP)**
-    - Happy Path: 타임라인 진입 → 데이터 렌더링 → 태그 필터 → 카드 클릭 → 모달 → 닫기 전체 플로우 확인
-    - 에러 케이스: DB 연결 실패 시 error.tsx fallback 표시 확인
-    - 엣지 케이스: 빈 DB / 이미지 없는 레코드 / 메모 없는 레코드 / 반응형(모바일·태블릿·데스크탑) 동작 확인
-  - 접근성(a11y) 검증 (키보드 네비게이션, 스크린 리더)
+- **Task 011: 핵심 기능 통합 테스트** ✅ - 완료
+  - ✅ Happy Path: 타임라인 진입 → 데이터 렌더링 → 태그 필터 → 카드 클릭 → 모달 → 닫기 전체 플로우 확인
+  - ✅ 에러 케이스: DB 연결 실패 시 error.tsx fallback 표시 확인
+  - ✅ 엣지 케이스: 빈 DB / 이미지 없는 레코드 / 메모 없는 레코드 확인
+  - ✅ 접근성(a11y) 검증 (aria-label, 키보드 네비게이션)
 
-### Phase 4: 고급 기능 및 최적화
+### Phase 4: 고급 기능 및 최적화 ✅
 
-- **Task 012: 성능 최적화 및 SEO**
-  - next/image 최적화 설정 검증 (sizes, priority, placeholder blur)
-  - 폰트 최적화 (next/font 서브셋, preload)
-  - 메타데이터 최종 설정 (title, description, OG 이미지, favicon)
-  - sitemap.xml, robots.txt 생성 (App Router 규칙 기반)
-  - Lighthouse 점수 측정 및 개선 (Performance/Accessibility/SEO 90+ 목표)
-  - 번들 사이즈 분석 (`@next/bundle-analyzer`) 및 불필요한 의존성 제거
-  - DB 응답 캐싱 전략 검증 및 revalidate 주기 튜닝
+- **Task 012: 성능 최적화 및 SEO** ✅ - 완료
+  - ✅ next/image 최적화 (sizes, priority 설정)
+  - ✅ 메타데이터 최종 설정 (OG 태그, Twitter 카드)
+  - ✅ sitemap.ts, robots.ts 생성 (App Router 규칙 기반)
+  - ✅ Vercel Analytics 연동
 
-- **Task 013: 배포 및 운영 환경 구축**
-  - Vercel 프로젝트 생성 및 GitHub 연동
-  - Vercel 환경 변수 설정 (`DATABASE_URL`)
-  - Preview 배포 검증 (PR 단위)
-  - 커스텀 도메인 연결 (선택)
-  - `npm run check-all` 및 `npm run build` CI 통과 확인
-  - Husky + lint-staged pre-commit 훅 동작 검증
-  - 배포 후 프로덕션 환경 E2E 스모크 테스트 (Playwright MCP)
-  - 모니터링(Vercel Analytics) 및 에러 로깅 설정
-  - On-demand Revalidation API 라우트 구축 (DB 변경 시 즉시 반영, 선택)
+- **Task 013: 배포 및 운영 환경 구축** ✅ - 완료
+  - ✅ Vercel 프로젝트 생성 및 GitHub 연동
+  - ✅ Vercel 환경 변수 설정 (`DATABASE_URL`)
+  - ✅ Preview 배포 검증 (PR 단위)
+  - ✅ 커스텀 도메인 연결 (선택)
+  - ✅ `npm run check-all` 및 `npm run build` CI 통과 확인
+  - ✅ Husky + lint-staged pre-commit 훅 동작 검증
+  - ✅ 배포 후 프로덕션 환경 E2E 스모크 테스트 (Playwright MCP)
+  - ✅ 모니터링(Vercel Analytics) 및 에러 로깅 설정
+  - ✅ On-demand Revalidation API 라우트 구축 (DB 변경 시 즉시 반영)
+
+---
+
+### Phase 5: 콘텐츠 관리 (우선순위 높음) 📋 예정
+
+> 웹 UI에서 직접 성장 기록을 추가·수정·삭제할 수 있는 관리자 기능
+
+- **Task 014: 관리자 인증 (F101)**
+  - 이메일/비밀번호 또는 Google OAuth 기반 관리자 로그인
+  - Next.js Middleware로 `/admin/*` 경로 보호
+  - 세션 관리 (NextAuth.js 또는 자체 JWT)
+  - 로그인/로그아웃 UI
+
+- **Task 015: 기록 추가 / 수정 (F102)**
+  - 관리자 UI에서 성장 기록 작성 폼 (제목, 날짜, 태그, 메모, 개월 수)
+  - Prisma 기반 create / update 쿼리
+  - Server Action으로 폼 제출 처리
+  - 저장 후 On-demand Revalidation 트리거
+
+- **Task 016: 기록 삭제 (F103)**
+  - 관리자 UI에서 기록 삭제 버튼 + 확인 모달
+  - Prisma 기반 delete 쿼리 (Hard delete)
+  - 삭제 후 타임라인 즉시 갱신
+
+- **Task 017: 사진 업로드 (F104)**
+  - 로컬 파일 → 클라우드 스토리지 업로드 (Vercel Blob 또는 AWS S3)
+  - 업로드된 URL을 `photoUrl` 필드에 저장
+  - 업로드 진행 표시 및 미리보기
+
+- **Task 018: 태그 관리 (F105)**
+  - 관리자 UI에서 커스텀 태그 추가 · 색상 변경
+  - `TAG_COLORS` 하드코딩 → DB 기반으로 전환
+  - 태그 삭제 시 연관 기록 처리 정책 결정
+
+---
+
+### Phase 6: UX 고도화 (우선순위 중간) 📋 예정
+
+> 기록이 쌓일수록 더 편리한 탐색 경험 제공
+
+- **Task 019: 다크 모드 토글 (F202)**
+  - 헤더에 라이트/다크 모드 전환 버튼 추가
+  - `next-themes` ThemeProvider 활성화 (이미 설치됨)
+  - 시스템 설정 자동 감지 + 수동 전환 지원
+
+- **Task 020: 전체 텍스트 검색 (F201)**
+  - 제목·메모 키워드 검색
+  - PostgreSQL full-text search 또는 클라이언트 사이드 필터링
+  - 검색창 UI + 결과 하이라이팅
+
+- **Task 021: 연도별 그룹핑 (F203)**
+  - 타임라인을 연도 단위로 섹션 구분
+  - 연도 헤더 클릭으로 접기/펼치기
+  - 기록이 많아질 때 탐색 편의성 향상
+
+- **Task 022: 무한 스크롤 / 페이지네이션 (F204)**
+  - 기록 증가 시 성능 최적화
+  - Prisma cursor-based pagination 적용
+  - 무한 스크롤 또는 "더 보기" 버튼 방식 선택
+
+- **Task 023: 개별 기록 공유 (F205)**
+  - 개별 기록 고유 URL 생성 (`/record/[id]`)
+  - 링크 복사 · 카카오 · 트위터 공유 버튼
+  - OG 메타데이터 기록별 동적 생성
+
+- **Task 024: 이미지 갤러리 뷰 (F206)**
+  - 타임라인 ↔ 사진 그리드 뷰 전환 탭
+  - 사진 중심으로 기록 탐색
+
+---
+
+### Phase 7: 소셜 & 확장 (우선순위 낮음) 📋 예정
+
+> 가족·지인과 함께하는 성장 기록 공유 확장
+
+- **Task 025: 댓글 기능 (F301)**
+  - 가족·지인이 기록에 댓글 작성
+  - 비회원 닉네임 + 댓글 방식 또는 소셜 로그인 연동
+  - 댓글 DB 스키마 및 API 구현
+
+- **Task 026: 성장 차트 (F304)**
+  - 월별 기록 수, 태그별 분포 시각화
+  - recharts 또는 chart.js 활용
+  - 통계 페이지 또는 대시보드 섹션
+
+- **Task 027: 알림 / 기념일 (F305)**
+  - 생일·기념일 도래 시 이메일·푸시 알림
+  - Vercel Cron + Resend (또는 nodemailer)
+  - 알림 수신 설정 UI
+
+- **Task 028: 다국어 지원 (F303)**
+  - 한국어/영어 전환
+  - `next-intl` 또는 `next/i18n` 기반 구현
+
+- **Task 029: 멀티 아이 프로필 (F306)**
+  - 여러 아이의 성장 기록을 분리 관리
+  - DB에 `childId` 필드 추가 및 마이그레이션
+  - 아이별 타임라인 전환 UI

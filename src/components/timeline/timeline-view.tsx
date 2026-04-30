@@ -10,6 +10,7 @@ import type { GrowthRecord } from '@/lib/types/growth-record'
 interface TimelineViewProps {
   records: GrowthRecord[]
   allTags: string[]
+  tagColorMap: Record<string, string>
 }
 
 function getYearMonth(dateStr: string): string {
@@ -17,7 +18,11 @@ function getYearMonth(dateStr: string): string {
   return `${year}년 ${month}월`
 }
 
-export function TimelineView({ records, allTags }: TimelineViewProps) {
+export function TimelineView({
+  records,
+  allTags,
+  tagColorMap,
+}: TimelineViewProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [selectedRecord, setSelectedRecord] = useState<GrowthRecord | null>(
     null
@@ -60,6 +65,7 @@ export function TimelineView({ records, allTags }: TimelineViewProps) {
             name={tag}
             selected={selectedTags.includes(tag)}
             onClick={() => toggleTag(tag)}
+            colorMap={tagColorMap}
           />
         ))}
       </div>
@@ -126,6 +132,7 @@ export function TimelineView({ records, allTags }: TimelineViewProps) {
         record={selectedRecord}
         open={selectedRecord !== null}
         onClose={() => setSelectedRecord(null)}
+        colorMap={tagColorMap}
       />
     </div>
   )

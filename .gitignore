@@ -20,6 +20,14 @@ shrimp_data/
 # IDE
 .idea/
 
+# Playwright
+/playwright-report/
+/test-results/
+tests/fixtures/storageState.json
+
+# 로컬 업로드 파일
+/public/uploads/
+
 # Claude Code 로컬 설정
 .claude/settings.local.json
 .claude/agent-memory/

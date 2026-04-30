@@ -1,11 +1,12 @@
 import { cn } from '@/lib/utils'
-import { DEFAULT_TAG_COLOR, TAG_COLORS } from '@/lib/types/tag'
+import { DEFAULT_TAG_COLOR } from '@/lib/types/tag'
 
 interface TagChipProps {
   name: string
   selected?: boolean
   onClick?: () => void
   className?: string
+  colorMap?: Record<string, string>
 }
 
 export function TagChip({
@@ -13,8 +14,9 @@ export function TagChip({
   selected = false,
   onClick,
   className,
+  colorMap,
 }: TagChipProps) {
-  const colorClass = TAG_COLORS[name] ?? DEFAULT_TAG_COLOR
+  const colorClass = colorMap?.[name] ?? DEFAULT_TAG_COLOR
 
   return (
     <button
